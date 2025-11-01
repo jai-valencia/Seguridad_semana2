@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecetApp - Inicio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .btn-login {
+            background: white;
+            color: #667eea;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .banner {
+            background: linear-gradient(to right, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .banner h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .recipe-info {
+            padding: 1.5rem;
+        }
+
+        .recipe-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .difficulty {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .ad-banner {
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🍳 RecetApp</div>
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="buscar.html">Buscar Recetas</a>
+                <a href="login.html" class="btn-login">Iniciar Sesión</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="banner">
+            <h2>¡Descubre el mundo de la cocina!</h2>
+            <p>Miles de recetas de todo el mundo esperando por ti</p>
+        </div>
+
+        <div class="ad-banner">
+            <h3>🎉 Publicidad - Utensilios de Cocina Premium</h3>
+            <p>Obtén 20% de descuento en tu primera compra</p>
+        </div>
+
+        <h2 class="section-title">⭐ Recetas Populares</h2>
+        <div class="recipes-grid" id="popularRecipes">
+            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+                <div class="recipe-image">🍝</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Pasta Carbonara</h3>
+                    <p>Cocina Italiana</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 30 min</span>
+                        <span class="difficulty">Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+                <div class="recipe-image">🍛</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Curry Tailandés</h3>
+                    <p>Cocina Tailandesa</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 45 min</span>
+                        <span class="difficulty">Difícil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+                <div class="recipe-image">🌮</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Tacos al Pastor</h3>
+                    <p>Cocina Mexicana</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 40 min</span>
+                        <span class="difficulty">Media</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <h3>📱 Descarga nuestra App Móvil</h3>
+            <p>Accede a todas las recetas desde tu smartphone</p>
+        </div>
+
+        <h2 class="section-title">🆕 Recetas Recientes</h2>
+        <div class="recipes-grid" id="recentRecipes">
+            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+                <div class="recipe-image">🍕</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Pizza Napolitana</h3>
+                    <p>Cocina Italiana</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 60 min</span>
+                        <span class="difficulty">Difícil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+                <div class="recipe-image">🍜</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Ramen Japonés</h3>
+                    <p>Cocina Japonesa</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 90 min</span>
+                        <span class="difficulty">Difícil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+                <div class="recipe-image">🥗</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Ensalada César</h3>
+                    <p>Cocina Internacional</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 15 min</span>
+                        <span class="difficulty">Fácil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 RecetApp - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
