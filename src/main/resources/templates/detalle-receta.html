@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Receta - RecetApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .btn-login {
+            background: white;
+            color: #667eea;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .alert-warning a {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .recipe-detail {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .recipe-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .recipe-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-meta-header {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recipe-content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .ingredients-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .ingredient-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .steps-list {
+            counter-reset: step-counter;
+            list-style: none;
+        }
+
+        .step-item {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-item::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 2rem;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a th:href="@{/inicio}">🍳 RecetApp</a></div>
+            <div class="nav-links">
+                <a th:href="@{/inicio}">Inicio</a>
+                <a th:href="@{/buscar}">Buscar Recetas</a>
+                
+                <span sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/index}" class="btn-login">Iniciar Sesión</a>
+                </span>
+                
+                <span sec:authorize="isAuthenticated()">
+                    <span style="margin-right: 1rem;">Hola, <span sec:authentication="name"></span></span>
+                    <a th:href="@{/logout}" class="btn-login">Cerrar Sesión</a>
+                </span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div sec:authorize="isAuthenticated()">
+            <div class="recipe-detail">
+                <div class="recipe-header">
+                    <div class="recipe-icon">🍝</div>
+                    <h1>Pasta Carbonara</h1>
+                    <p>Cocina Italiana • Italia</p>
+                    <div class="recipe-meta-header">
+                        <div class="meta-item">
+                            <span>⏱️</span>
+                            <span>Tiempo Total: 30 minutos</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>👥</span>
+                            <span>4 Porciones</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>📊</span>
+                            <span>Dificultad: Media</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recipe-content">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3>Tiempo de Preparación</h3>
+                            <p>15 minutos</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>Tiempo de Cocción</h3>
+                            <p>15 minutos</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>Calorías</h3>
+                            <p>550 kcal</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>Nivel</h3>
+                            <p>Intermedio</p>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>🛒 Ingredientes</h2>
+                        <div class="ingredients-list">
+                            <div class="ingredient-item">✓ 400g de pasta (espagueti)</div>
+                            <div class="ingredient-item">✓ 200g de panceta o tocino</div>
+                            <div class="ingredient-item">✓ 4 huevos</div>
+                            <div class="ingredient-item">✓ 100g de queso parmesano rallado</div>
+                            <div class="ingredient-item">✓ Pimienta negra al gusto</div>
+                            <div class="ingredient-item">✓ Sal al gusto</div>
+                            <div class="ingredient-item">✓ 2 dientes de ajo (opcional)</div>
+                            <div class="ingredient-item">✓ Aceite de oliva</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>👨‍🍳 Instrucciones de Preparación</h2>
+                        <ol class="steps-list">
+                            <li class="step-item">
+                                <strong>Preparar los ingredientes:</strong> Corta la panceta en cubos pequeños. Ralla el queso parmesano. Separa las yemas de las claras de huevo y bate las yemas con el queso rallado y pimienta negra.
+                            </li>
+                            <li class="step-item">
+                                <strong>Cocinar la pasta:</strong> Pon a hervir abundante agua con sal. Cuando hierva, añade la pasta y cocina según las instrucciones del paquete hasta que esté al dente. Reserva una taza del agua de cocción antes de escurrir.
+                            </li>
+                            <li class="step-item">
+                                <strong>Freír la panceta:</strong> En una sartén grande, cocina la panceta a fuego medio hasta que esté dorada y crujiente. Si usas ajo, añádelo al final por 30 segundos.
+                            </li>
+                            <li class="step-item">
+                                <strong>Mezclar la pasta:</strong> Retira la sartén del fuego. Añade la pasta escurrida a la sartén con la panceta y mezcla bien.
+                            </li>
+                            <li class="step-item">
+                                <strong>Agregar la salsa:</strong> Fuera del fuego, añade la mezcla de huevos y queso a la pasta caliente. Mezcla rápidamente para que los huevos no se cocinen demasiado. Si está muy espesa, añade un poco del agua de cocción reservada.
+                            </li>
+                            <li class="step-item">
+                                <strong>Servir:</strong> Sirve inmediatamente en platos calientes. Espolvorea más queso parmesano y pimienta negra al gusto. ¡Disfruta!
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="section">
+                        <h2>📸 Fotografías</h2>
+                        <div class="photos-grid">
+                            <div class="photo-item">🍝</div>
+                            <div class="photo-item">👨‍🍳</div>
+                            <div class="photo-item">🥓</div>
+                            <div class="photo-item">🧀</div>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/buscar}" class="back-btn">← Volver a Buscar</a>
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="!isAuthenticated()">
+            <div class="alert-warning">
+                <h2>🔒 Contenido Privado</h2>
+                <p>Debes <a th:href="@{/index}">iniciar sesión</a> para ver los detalles de esta receta.</p>
+                <br>
+                <a th:href="@{/buscar}" class="back-btn">← Volver a Buscar</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 RecetApp - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Recetas - RecetApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .btn-login {
+            background: white;
+            color: #667eea;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            grid-column: 1 / -1;
+        }
+
+        .btn-search:hover {
+            opacity: 0.9;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .recipe-info {
+            padding: 1.5rem;
+        }
+
+        .recipe-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .difficulty {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a th:href="@{/inicio}">🍳 RecetApp</a></div>
+            <div class="nav-links">
+                <a th:href="@{/inicio}">Inicio</a>
+                <a th:href="@{/buscar}">Buscar Recetas</a>
+                
+                <span sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/index}" class="btn-login">Iniciar Sesión</a>
+                </span>
+                
+                <span sec:authorize="isAuthenticated()">
+                    <span style="margin-right: 1rem;">Hola, <span sec:authentication="name"></span></span>
+                    <a th:href="@{/logout}" class="btn-login">Cerrar Sesión</a>
+                </span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="search-section">
+            <h2>🔍 Buscar Recetas</h2>
+            <form class="search-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre de la receta</label>
+                    <input type="text" id="nombre" placeholder="Ej: Pasta Carbonara">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoCocina">Tipo de cocina</label>
+                    <select id="tipoCocina">
+                        <option value="">Seleccionar...</option>
+                        <option value="italiana">Italiana</option>
+                        <option value="mexicana">Mexicana</option>
+                        <option value="japonesa">Japonesa</option>
+                        <option value="tailandesa">Tailandesa</option>
+                        <option value="francesa">Francesa</option>
+                        <option value="china">China</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ingredientes">Ingredientes</label>
+                    <input type="text" id="ingredientes" placeholder="Ej: pollo, tomate">
+                </div>
+
+                <div class="form-group">
+                    <label for="pais">País de origen</label>
+                    <select id="pais">
+                        <option value="">Seleccionar...</option>
+                        <option value="italia">Italia</option>
+                        <option value="mexico">México</option>
+                        <option value="japon">Japón</option>
+                        <option value="tailandia">Tailandia</option>
+                        <option value="francia">Francia</option>
+                        <option value="espana">España</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dificultad">Dificultad</label>
+                    <select id="dificultad">
+                        <option value="">Seleccionar...</option>
+                        <option value="facil">Fácil</option>
+                        <option value="media">Media</option>
+                        <option value="dificil">Difícil</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-search">Buscar</button>
+            </form>
+        </div>
+
+        <h2 class="section-title">📋 Resultados de búsqueda</h2>
+        <div class="recipes-grid">
+            <div class="recipe-card" onclick="location.href='/receta/detalle/1'">
+                <div class="recipe-image">🍝</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Pasta Carbonara</h3>
+                    <p>Cocina Italiana • Italia</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 30 min</span>
+                        <span class="difficulty">Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="location.href='/receta/detalle/2'">
+                <div class="recipe-image">🍛</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Curry Tailandés</h3>
+                    <p>Cocina Tailandesa • Tailandia</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 45 min</span>
+                        <span class="difficulty">Difícil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="location.href='/receta/detalle/3'">
+                <div class="recipe-image">🌮</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Tacos al Pastor</h3>
+                    <p>Cocina Mexicana • México</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 40 min</span>
+                        <span class="difficulty">Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="location.href='/receta/detalle/4'">
+                <div class="recipe-image">🍕</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Pizza Napolitana</h3>
+                    <p>Cocina Italiana • Italia</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 60 min</span>
+                        <span class="difficulty">Difícil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="location.href='/receta/detalle/5'">
+                <div class="recipe-image">🍜</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Ramen Japonés</h3>
+                    <p>Cocina Japonesa • Japón</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 90 min</span>
+                        <span class="difficulty">Difícil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-card" onclick="location.href='/receta/detalle/6'">
+                <div class="recipe-image">🥘</div>
+                <div class="recipe-info">
+                    <h3 class="recipe-title">Paella Valenciana</h3>
+                    <p>Cocina Española • España</p>
+                    <div class="recipe-meta">
+                        <span>⏱️ 60 min</span>
+                        <span class="difficulty">Media</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 RecetApp - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
