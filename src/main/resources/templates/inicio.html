@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,12 +161,20 @@
 <body>
     <header>
         <nav>
-            <div class="logo">🍳 RecetApp</div>
-            <div class="nav-links">
-                <a href="index.html">Inicio</a>
-                <a href="buscar.html">Buscar Recetas</a>
-                <a href="login.html" class="btn-login">Iniciar Sesión</a>
-            </div>
+            <div class="logo"><a th:href="@{/inicio}" style="color: white; text-decoration: none;">🍳 RecetApp</a></div>
+              <div class="nav-links">
+                  <a th:href="@{/inicio}">Inicio</a>
+                  <a th:href="@{/buscar}">Buscar Recetas</a>
+                  
+                  <span sec:authorize="!isAuthenticated()">
+                      <a th:href="@{/index}" class="btn-login">Iniciar Sesión</a>
+                  </span>
+                  
+                  <span sec:authorize="isAuthenticated()">
+                      <span style="margin-right: 1rem;">Hola, <span sec:authentication="name"></span></span>
+                      <a th:href="@{/logout}" class="btn-login">Cerrar Sesión</a>
+                  </span>
+              </div>
         </nav>
     </header>
 
@@ -182,8 +191,8 @@
 
         <h2 class="section-title">⭐ Recetas Populares</h2>
         <div class="recipes-grid" id="popularRecipes">
-            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
-                <div class="recipe-image">🍝</div>
+          <div class="recipe-card" onclick="location.href='/receta/detalle/1'">  
+              <div class="recipe-image">🍝</div>
                 <div class="recipe-info">
                     <h3 class="recipe-title">Pasta Carbonara</h3>
                     <p>Cocina Italiana</p>
@@ -194,8 +203,8 @@
                 </div>
             </div>
 
-            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
-                <div class="recipe-image">🍛</div>
+          <div class="recipe-card" onclick="location.href='/receta/detalle/2'"> 
+              <div class="recipe-image">🍛</div>
                 <div class="recipe-info">
                     <h3 class="recipe-title">Curry Tailandés</h3>
                     <p>Cocina Tailandesa</p>
@@ -206,7 +215,7 @@
                 </div>
             </div>
 
-            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
+            <div class="recipe-card" onclick="location.href='/receta/detalle/3'">
                 <div class="recipe-image">🌮</div>
                 <div class="recipe-info">
                     <h3 class="recipe-title">Tacos al Pastor</h3>
@@ -226,8 +235,8 @@
 
         <h2 class="section-title">🆕 Recetas Recientes</h2>
         <div class="recipes-grid" id="recentRecipes">
-            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
-                <div class="recipe-image">🍕</div>
+            <div class="recipe-card" onclick="location.href='/receta/detalle/3'">  
+              <div class="recipe-image">🍕</div>
                 <div class="recipe-info">
                     <h3 class="recipe-title">Pizza Napolitana</h3>
                     <p>Cocina Italiana</p>
@@ -238,8 +247,8 @@
                 </div>
             </div>
 
-            <div class="recipe-card" onclick="alert('Inicia sesión para ver los detalles')">
-                <div class="recipe-image">🍜</div>
+            <div class="recipe-card" onclick="location.href='/receta/detalle/3'">    
+              <div class="recipe-image">🍜</div>
                 <div class="recipe-info">
                     <h3 class="recipe-title">Ramen Japonés</h3>
                     <p>Cocina Japonesa</p>
