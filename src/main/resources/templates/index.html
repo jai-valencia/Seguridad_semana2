@@ -1,50 +1,52 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>semana2 — Iniciar sesión</title>
-  <link th:href="@{/js/css/admin.css}" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
+<body class="bg-light">
+  <div class="container d-flex align-items-center justify-content-center" style="min-height:100vh;">
+    <div class="card shadow-sm w-100" style="max-width: 420px;">
+      <div class="card-body p-4">
+        <h1 class="h4 text-center mb-3">🍳 RecetApp</h1>
+        <p class="text-muted text-center mb-4">Inicia sesión con tus credenciales</p>
+        
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+          Credenciales inválidas. Inténtalo nuevamente.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+          Has cerrado sesión correctamente.
+        </div>
+        
         <form th:action="@{/login}" method="post">
           <div class="mb-3">
             <label for="username" class="form-label">Usuario</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="tu.correo@dominio.cl" required>
           </div>
-
           <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
           </div>
-
-<body>
-    <header>
-        <nav>
-            <div class="logo">🍳 RecetApp</div>
-            <div class="nav-links">
-                <a href="/">Inicio</a>
-                <a href="buscar.html">Buscar Recetas</a>
-                <a href="/login" class="btn-login">Iniciar Sesión</a>
-            </div>
-        </nav>
-    </header>
-
-          <div th:if="${param.error}" class="alert alert-danger mt-3" role="alert">
-            Credenciales inválidas. Inténtalo nuevamente.
-          </div>
-          <div th:if="${param.logout}" class="alert alert-success mt-3" role="alert">
-            Has cerrado sesión correctamente.
-          </div>
-
-        <div class="ad-banner">
-            <h3>🎉 Publicidad - Utensilios de Cocina Premium</h3>
-            <p>Obtén 20% de descuento en tu primera compra</p>
+          <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+        </form>
+        
+        <div class="text-center mt-3">
+          <small class="text-muted">¿Olvidaste tu contraseña? Contacta al administrador.</small>
+        </div>
+        
+        <div class="mt-3 p-2 bg-light rounded">
+          <small><strong>Usuarios de prueba:</strong></small>
+          <ul class="small mb-0">
+            <li>maria / maria123</li>
+            <li>juan / juan123</li>
+            <li>admin / admin123</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </body>
 </html>
-

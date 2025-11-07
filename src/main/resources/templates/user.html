@@ -12,18 +12,20 @@
     <header>
         <nav>
             <div class="logo">🍳 RecetApp</div>
-            <div class="nav-links">
-                <a href="/">Inicio</a>
-                <a href="buscar.html">Buscar</a>
-                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
-            </div>
+              <div class="nav-links">
+                  <a th:href="@{/inicio}">Inicio</a>
+                  <a th:href="@{/buscar}">Buscar</a>
+                  <form th:action="@{/logout}" method="post" style="display: inline;">
+                      <button class="btn-logout" type="submit">Cerrar Sesión</button>
+                  </form>
+              </div>
         </nav>
     </header>
 
     <div class="container">
         <div class="welcome-banner">
             <div class="welcome-text">
-                <h1>¡Hola, María! 👋</h1>
+                <h1>¡Hola, <span sec:authentication="name"></span>! 👋</h1>
                 <p>Gestiona tus recetas y descubre nuevos sabores</p>
             </div>
             <button class="btn-primary" onclick="showNewRecipeForm()">+ Nueva Receta</button>
@@ -188,13 +190,6 @@
             // Activar el tab seleccionado
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
-        }
-
-        function logout() {
-            if (confirm('¿Estás seguro de cerrar sesión?')) {
-                alert('Sesión cerrada exitosamente');
-                window.location.href = '/';
-            }
         }
 
         function showNewRecipeForm() {
