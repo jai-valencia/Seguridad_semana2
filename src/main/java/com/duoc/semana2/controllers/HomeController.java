@@ -20,4 +20,10 @@ public class HomeController {
   public String user() {
     return "user"; // templates/user.html
   }
+
+  @GetMapping("/login")
+    public String loginPage() {
+        return "login"; 
+    }
+  
 }
