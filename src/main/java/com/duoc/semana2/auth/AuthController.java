@@ -40,16 +40,16 @@ public class AuthController {
     String role = user.getAuthorities().stream().findFirst().map(a -> a.getAuthority()).orElse("ROLE_USER");
     String token = jwtService.generateToken(user.getUsername(), Map.of("role", role));
 
-    // Cookie HttpOnly con el token (ajusta secure(true) si usas HTTPS)
+    
     ResponseCookie cookie = ResponseCookie.from("JWT", token)
         .httpOnly(true)
-        .secure(false)          // en producción con HTTPS -> true
-        .sameSite("Lax")        // Lax permite navegación normal
+        .secure(false)          
+        .sameSite("Lax")        
         .path("/")
-        .maxAge(60L * 60L * 2L) // 2 horas
+        .maxAge(60L * 60L * 2L) 
         .build();
 
-    // Devuelve también el rol (útil para redirección client-side)
+    
     return ResponseEntity.ok()
         .header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(new AuthResponse(token, role));
@@ -57,7 +57,6 @@ public class AuthController {
 
   @PostMapping("/logout")
   public ResponseEntity<Void> logout() {
-    // Invalida la cookie
     ResponseCookie clear = ResponseCookie.from("JWT", "")
         .httpOnly(true).secure(false).sameSite("Lax").path("/")
         .maxAge(0)

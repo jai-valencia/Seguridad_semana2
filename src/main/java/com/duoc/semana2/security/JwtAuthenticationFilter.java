@@ -41,19 +41,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           SecurityContextHolder.getContext().setAuthentication(auth);
         }
       } catch (Exception ignored) {
-        // Token inválido/expirado: continúa sin autenticación
+        
       }
     }
     chain.doFilter(request, response);
   }
 
   private String resolveToken(HttpServletRequest request) {
-    // 1) Authorization header Bearer
     String authHeader = request.getHeader("Authorization");
     if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
       return authHeader.substring(7);
     }
-    // 2) Cookie JWT
+    
     if (request.getCookies() != null) {
       for (Cookie c : request.getCookies()) {
         if ("JWT".equals(c.getName())) {

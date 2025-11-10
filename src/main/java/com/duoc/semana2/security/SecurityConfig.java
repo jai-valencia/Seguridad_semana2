@@ -47,16 +47,16 @@ public SecurityFilterChain filterChain(HttpSecurity http,
     .csrf(csrf -> csrf.disable())
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     .authorizeHttpRequests(auth -> auth
-      // Público
+      
       .requestMatchers("/", "/login", "/auth/login", "/auth/logout", "/health/**",
                        "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
-      // Vistas protegidas por rol (el filtro leerá JWT desde cookie)
+      
       .requestMatchers("/admin").hasRole("ADMIN")
       .requestMatchers("/user").hasAnyRole("USER","ADMIN")
-      // APIs
+      
       .requestMatchers("/api/secure/admin/**").hasRole("ADMIN")
       .requestMatchers("/api/secure/**").authenticated()
-      // resto
+      
       .anyRequest().authenticated()
     )
     .authenticationProvider(authProvider)

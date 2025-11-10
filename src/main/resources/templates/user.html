@@ -179,15 +179,15 @@
 
     <script>
         function showTab(tabName) {
-            // Ocultar todos los contenidos
+            
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
             
-            // Desactivar todos los tabs
+            
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             
-            // Activar el tab seleccionado
+            
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -216,10 +216,10 @@
         }
 
         
-      //async function logout() {
-      //  await fetch('/auth/logout', { method: 'POST' });
-      //  window.location.href = '/';
-      //}
+      async function logout() {
+        await fetch('/auth/logout', { method: 'POST' });
+        window.location.href = '/';
+      }
 
     </script>
 </body>

@@ -39,7 +39,7 @@
   </div>
 
   <script>
-    // Decodifica el payload del JWT para leer el "role"
+    
     function parseJwt (token) {
       try {
         const base64Url = token.split('.')[1];
@@ -73,22 +73,22 @@
           return;
         }
 
-        const data = await resp.json(); // { accessToken: "..." }
+        const data = await resp.json(); 
         const token = data.accessToken;
-        // Guarda el token para futuras llamadas
+        
         localStorage.setItem('token', token);
 
-        // Lee el rol desde el claim "role" del JWT
+       
         const payload = parseJwt(token);
         const role = payload && payload.role ? payload.role : null;
 
-        // Redirige según el rol
+        
         if (role === 'ROLE_ADMIN') {
           window.location.href = '/admin';
         } else if (role === 'ROLE_USER') {
           window.location.href = '/user';
         } else {
-          // rol desconocido: manda a home user por defecto
+          
           window.location.href = '/user';
         }
       } catch (err) {
