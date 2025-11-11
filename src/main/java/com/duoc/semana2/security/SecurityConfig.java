@@ -48,7 +48,7 @@ public SecurityFilterChain filterChain(HttpSecurity http,
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     .authorizeHttpRequests(auth -> auth
       
-      .requestMatchers("/", "/login", "/auth/login", "/auth/logout", "/health/**",
+      .requestMatchers("/","/inicio","/index","/user", "/login", "/auth/login", "/auth/logout", "/health/**",
                        "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
       
       .requestMatchers("/admin").hasRole("ADMIN")

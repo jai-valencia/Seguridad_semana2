@@ -8,7 +8,7 @@ public class HomeController {
 
   @GetMapping("/")
   public String index() {
-    return "index"; 
+    return "login"; 
   }
 
   @GetMapping("/admin")
@@ -26,4 +26,18 @@ public class HomeController {
         return "login"; 
     }
   
+    @GetMapping("/inicio")
+    public String inicio() {
+        return "inicio"; 
+    }
+
+    @GetMapping("/buscar")
+    public String buscar() {
+        return "buscar"; 
+    }
+
+    @GetMapping("/receta/detalle/{id}")
+    public String receta() {
+        return "detalle-receta"; 
+    }
 }
