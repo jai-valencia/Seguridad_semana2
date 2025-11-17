@@ -3,6 +3,7 @@ package com.duoc.semana2.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.duoc.semana2.model.Receta;
@@ -28,5 +29,39 @@ public class RecetaService {
         return recetaRepository.buscarConFiltros(
             nombre, tipoCocina, ingredientes, pais, dificultad
         );
+    }
+
+    public List<Receta> obtenerRecetasPopulares(int limite) {
+        return recetaRepository.findTopRecetas(PageRequest.of(0, limite));
+    }
+    
+    public List<Receta> obtenerRecetasRecientes(int limite) {
+        return recetaRepository.findRecentRecetas(PageRequest.of(0, limite));
+    }
+
+    public List<Receta> obtenerRecetasPorUsuario(Long usuarioId) {
+        return recetaRepository.findByUsuarioId(usuarioId);
+    }
+    
+    public List<Receta> obtenerRecetasFavoritas(Long usuarioId) {
+        return recetaRepository.findFavoritasByUsuarioId(usuarioId);
+    }
+    
+    public void guardarReceta(Receta receta) {
+        recetaRepository.save(receta);
+    }
+    
+    public void eliminarReceta(Long id) {
+        recetaRepository.deleteById(id);
+    }
+
+    public List<Receta> obtenerRecetasPorUsuario(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerRecetasPorUsuario'");
+    }
+
+    public List<Receta> obtenerRecetasFavoritas(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerRecetasFavoritas'");
     }
 }

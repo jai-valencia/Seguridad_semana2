@@ -2,6 +2,8 @@ package com.duoc.semana2.repository;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +25,16 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
                                    @Param("ingredientes") String ingredientes,
                                    @Param("pais") String pais,
                                    @Param("dificultad") String dificultad);
+
+     @Query("SELECT r FROM Receta r ORDER BY r.vistas DESC, r.likes DESC")
+List<Receta> findTopRecetas(PageRequest pageable);
+
+@Query("SELECT r FROM Receta r ORDER BY r.fechaCreacion DESC")
+List<Receta> findRecentRecetas(PageRequest pageable);
+
+List<Receta> findByUsuarioId(Long usuarioId);
+    
+    @Query("SELECT r FROM Receta r JOIN r.usuariosQueFavoritearon u WHERE u.id = :usuarioId")
+    List<Receta> findFavoritasByUsuarioId(@Param("usuarioId") Long usuarioId);
+
 }
