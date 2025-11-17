@@ -23,6 +23,7 @@ public class AuthController {
   private final AuthenticationManager authManager;
   private final JwtService jwtService;
   private final UsuarioRepository usuarioRepository;
+  boolean isSecure = !"dev".equals(System.getProperty("spring.profiles.active"));
 
   public AuthController(AuthenticationManager authManager, JwtService jwtService, UsuarioRepository usuarioRepository) {
     this.authManager = authManager;
@@ -43,7 +44,7 @@ public class AuthController {
     
     ResponseCookie cookie = ResponseCookie.from("JWT", token)
         .httpOnly(true)
-        .secure(false)          
+        .secure(isSecure)         // Será TRUE cuando pase a producción con HTTPS
         .sameSite("Lax")        
         .path("/")
         .maxAge(60L * 60L * 2L) 
@@ -68,7 +69,10 @@ public class AuthController {
 }
 
 @Getter @Setter
-class AuthRequest { private String username; private String password; }
+class AuthRequest { 
+  private String username; 
+  private String password; 
+}
 
 @Getter @AllArgsConstructor
 class AuthResponse { private String accessToken; private String role; }

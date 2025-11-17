@@ -44,10 +44,10 @@ public SecurityFilterChain filterChain(HttpSecurity http,
                                        JwtAuthenticationFilter jwtFilter,
                                        DaoAuthenticationProvider authProvider) throws Exception {
   http
+    // CSRF se deshabilita porque usamos JWT y la API es stateless: no hay sesiones que proteger.
     .csrf(csrf -> csrf.disable())
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    .authorizeHttpRequests(auth -> auth
-      
+    .authorizeHttpRequests(auth -> auth      
       .requestMatchers("/","/inicio","/index","/user", "/login", "/auth/login", "/auth/logout", "/health/**",
                        "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
       
