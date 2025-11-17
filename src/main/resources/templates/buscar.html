@@ -212,55 +212,59 @@
     <div class="container">
         <div class="search-section">
             <h2>🔍 Buscar Recetas</h2>
-            <form class="search-form">
-                <div class="form-group">
-                    <label for="nombre">Nombre de la receta</label>
-                    <input type="text" id="nombre" placeholder="Ej: Pasta Carbonara">
-                </div>
+            <form class="search-form" th:action="@{/buscar/filtrar}" method="get">
+    <div class="form-group">
+        <label for="nombre">Nombre de la receta</label>
+        <input type="text" id="nombre" name="nombre" 
+               th:value="${nombre}" 
+               placeholder="Ej: Pasta Carbonara">
+    </div>
 
-                <div class="form-group">
-                    <label for="tipoCocina">Tipo de cocina</label>
-                    <select id="tipoCocina">
-                        <option value="">Seleccionar...</option>
-                        <option value="italiana">Italiana</option>
-                        <option value="mexicana">Mexicana</option>
-                        <option value="japonesa">Japonesa</option>
-                        <option value="tailandesa">Tailandesa</option>
-                        <option value="francesa">Francesa</option>
-                        <option value="china">China</option>
-                    </select>
-                </div>
+    <div class="form-group">
+        <label for="tipoCocina">Tipo de cocina</label>
+        <select id="tipoCocina" name="tipoCocina">
+            <option value="">Seleccionar...</option>
+            <option value="italiana" th:selected="${tipoCocina == 'italiana'}">Italiana</option>
+            <option value="mexicana" th:selected="${tipoCocina == 'mexicana'}">Mexicana</option>
+            <option value="japonesa" th:selected="${tipoCocina == 'japonesa'}">Japonesa</option>
+            <option value="tailandesa" th:selected="${tipoCocina == 'tailandesa'}">Tailandesa</option>
+            <option value="francesa" th:selected="${tipoCocina == 'francesa'}">Francesa</option>
+            <option value="china" th:selected="${tipoCocina == 'china'}">China</option>
+        </select>
+    </div>
 
-                <div class="form-group">
-                    <label for="ingredientes">Ingredientes</label>
-                    <input type="text" id="ingredientes" placeholder="Ej: pollo, tomate">
-                </div>
+    <div class="form-group">
+        <label for="ingredientes">Ingredientes</label>
+        <input type="text" id="ingredientes" name="ingredientes" 
+               th:value="${ingredientes}"
+               placeholder="Ej: pollo, tomate">
+    </div>
 
-                <div class="form-group">
-                    <label for="pais">País de origen</label>
-                    <select id="pais">
-                        <option value="">Seleccionar...</option>
-                        <option value="italia">Italia</option>
-                        <option value="mexico">México</option>
-                        <option value="japon">Japón</option>
-                        <option value="tailandia">Tailandia</option>
-                        <option value="francia">Francia</option>
-                        <option value="espana">España</option>
-                    </select>
-                </div>
+    <div class="form-group">
+        <label for="pais">País de origen</label>
+        <select id="pais" name="pais">
+            <option value="">Seleccionar...</option>
+            <option value="italia" th:selected="${pais == 'italia'}">Italia</option>
+            <option value="mexico" th:selected="${pais == 'mexico'}">México</option>
+            <option value="japon" th:selected="${pais == 'japon'}">Japón</option>
+            <option value="tailandia" th:selected="${pais == 'tailandia'}">Tailandia</option>
+            <option value="francia" th:selected="${pais == 'francia'}">Francia</option>
+            <option value="espana" th:selected="${pais == 'espana'}">España</option>
+        </select>
+    </div>
 
-                <div class="form-group">
-                    <label for="dificultad">Dificultad</label>
-                    <select id="dificultad">
-                        <option value="">Seleccionar...</option>
-                        <option value="facil">Fácil</option>
-                        <option value="media">Media</option>
-                        <option value="dificil">Difícil</option>
-                    </select>
-                </div>
+    <div class="form-group">
+        <label for="dificultad">Dificultad</label>
+        <select id="dificultad" name="dificultad">
+            <option value="">Seleccionar...</option>
+            <option value="facil" th:selected="${dificultad == 'facil'}">Fácil</option>
+            <option value="media" th:selected="${dificultad == 'media'}">Media</option>
+            <option value="dificil" th:selected="${dificultad == 'dificil'}">Difícil</option>
+        </select>
+    </div>
 
-                <button type="submit" class="btn-search">Buscar</button>
-            </form>
+    <button type="submit" class="btn-search">Buscar</button>
+</form>
         </div>
 
         <h2 class="section-title">📋 Resultados de búsqueda</h2>

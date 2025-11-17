@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Receta - RecetApp</title>
+    <title th:text="${receta != null ? receta.nombre + ' - RecetApp' : 'Detalle de Receta - RecetApp'}">Detalle de Receta - RecetApp</title>
     <style>
         * {
             margin: 0;
@@ -236,6 +236,13 @@
             background: #5a6268;
         }
 
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+        }
+
         footer {
             background: #333;
             color: white;
@@ -266,93 +273,104 @@
     </header>
 
     <div class="container">
+        <!-- CONTENIDO PARA USUARIOS AUTENTICADOS -->
         <div sec:authorize="isAuthenticated()">
             <div class="recipe-detail">
+                <!-- HEADER DE LA RECETA -->
                 <div class="recipe-header">
-                    <div class="recipe-icon">🍝</div>
-                    <h1>Pasta Carbonara</h1>
-                    <p>Cocina Italiana • Italia</p>
+                    <div class="recipe-icon" th:text="${receta.emoji != null ? receta.emoji : '🍽️'}">🍝</div>
+                    <h1 th:text="${receta.nombre}">Nombre de la receta</h1>
+                    <p>
+                        <span th:text="${receta.tipoCocina}">Tipo de cocina</span> • 
+                        <span th:text="${receta.pais}">País</span>
+                    </p>
                     <div class="recipe-meta-header">
                         <div class="meta-item">
                             <span>⏱️</span>
-                            <span>Tiempo Total: 30 minutos</span>
+                            <span>Tiempo Total: <span th:text="${receta.tiempoTotal}">30</span> minutos</span>
                         </div>
-                        <div class="meta-item">
+                        <div class="meta-item" th:if="${receta.porciones != null}">
                             <span>👥</span>
-                            <span>4 Porciones</span>
+                            <span><span th:text="${receta.porciones}">4</span> Porciones</span>
                         </div>
                         <div class="meta-item">
                             <span>📊</span>
-                            <span>Dificultad: Media</span>
+                            <span>Dificultad: <span th:text="${receta.dificultad}">Media</span></span>
                         </div>
                     </div>
                 </div>
 
+                <!-- CONTENIDO DE LA RECETA -->
                 <div class="recipe-content">
+                    <!-- INFO GRID -->
                     <div class="info-grid">
-                        <div class="info-card">
+                        <div class="info-card" th:if="${receta.tiempoPreparacion != null}">
                             <h3>Tiempo de Preparación</h3>
-                            <p>15 minutos</p>
+                            <p><span th:text="${receta.tiempoPreparacion}">15</span> minutos</p>
                         </div>
-                        <div class="info-card">
+                        <div class="info-card" th:if="${receta.tiempoCoccion != null}">
                             <h3>Tiempo de Cocción</h3>
-                            <p>15 minutos</p>
+                            <p><span th:text="${receta.tiempoCoccion}">15</span> minutos</p>
                         </div>
-                        <div class="info-card">
+                        <div class="info-card" th:if="${receta.calorias != null}">
                             <h3>Calorías</h3>
-                            <p>550 kcal</p>
+                            <p><span th:text="${receta.calorias}">550</span> kcal</p>
                         </div>
                         <div class="info-card">
                             <h3>Nivel</h3>
-                            <p>Intermedio</p>
+                            <p th:text="${receta.dificultad}">Intermedio</p>
                         </div>
                     </div>
 
+                    <!-- INGREDIENTES -->
                     <div class="section">
                         <h2>🛒 Ingredientes</h2>
-                        <div class="ingredients-list">
-                            <div class="ingredient-item">✓ 400g de pasta (espagueti)</div>
-                            <div class="ingredient-item">✓ 200g de panceta o tocino</div>
-                            <div class="ingredient-item">✓ 4 huevos</div>
-                            <div class="ingredient-item">✓ 100g de queso parmesano rallado</div>
-                            <div class="ingredient-item">✓ Pimienta negra al gusto</div>
-                            <div class="ingredient-item">✓ Sal al gusto</div>
-                            <div class="ingredient-item">✓ 2 dientes de ajo (opcional)</div>
-                            <div class="ingredient-item">✓ Aceite de oliva</div>
+                        <div th:if="${receta.ingredientesList != null && !receta.ingredientesList.isEmpty()}" 
+                             class="ingredients-list">
+                            <div class="ingredient-item" 
+                                 th:each="ingrediente : ${receta.ingredientesList}"
+                                 th:text="'✓ ' + ${ingrediente}">
+                                ✓ Ingrediente
+                            </div>
+                        </div>
+                        <div th:if="${receta.ingredientesList == null || receta.ingredientesList.isEmpty()}" 
+                             class="empty-message">
+                            <p>No se han registrado ingredientes para esta receta.</p>
                         </div>
                     </div>
 
+                    <!-- INSTRUCCIONES -->
                     <div class="section">
                         <h2>👨‍🍳 Instrucciones de Preparación</h2>
-                        <ol class="steps-list">
-                            <li class="step-item">
-                                <strong>Preparar los ingredientes:</strong> Corta la panceta en cubos pequeños. Ralla el queso parmesano. Separa las yemas de las claras de huevo y bate las yemas con el queso rallado y pimienta negra.
-                            </li>
-                            <li class="step-item">
-                                <strong>Cocinar la pasta:</strong> Pon a hervir abundante agua con sal. Cuando hierva, añade la pasta y cocina según las instrucciones del paquete hasta que esté al dente. Reserva una taza del agua de cocción antes de escurrir.
-                            </li>
-                            <li class="step-item">
-                                <strong>Freír la panceta:</strong> En una sartén grande, cocina la panceta a fuego medio hasta que esté dorada y crujiente. Si usas ajo, añádelo al final por 30 segundos.
-                            </li>
-                            <li class="step-item">
-                                <strong>Mezclar la pasta:</strong> Retira la sartén del fuego. Añade la pasta escurrida a la sartén con la panceta y mezcla bien.
-                            </li>
-                            <li class="step-item">
-                                <strong>Agregar la salsa:</strong> Fuera del fuego, añade la mezcla de huevos y queso a la pasta caliente. Mezcla rápidamente para que los huevos no se cocinen demasiado. Si está muy espesa, añade un poco del agua de cocción reservada.
-                            </li>
-                            <li class="step-item">
-                                <strong>Servir:</strong> Sirve inmediatamente en platos calientes. Espolvorea más queso parmesano y pimienta negra al gusto. ¡Disfruta!
+                        <ol th:if="${receta.instruccionesList != null && !receta.instruccionesList.isEmpty()}" 
+                            class="steps-list">
+                            <li class="step-item" 
+                                th:each="paso : ${receta.instruccionesList}"
+                                th:utext="${paso}">
+                                Instrucción de preparación
                             </li>
                         </ol>
+                        <div th:if="${receta.instruccionesList == null || receta.instruccionesList.isEmpty()}" 
+                             class="empty-message">
+                            <p>No se han registrado instrucciones para esta receta.</p>
+                        </div>
                     </div>
 
+                    <!-- FOTOGRAFÍAS -->
                     <div class="section">
                         <h2>📸 Fotografías</h2>
-                        <div class="photos-grid">
-                            <div class="photo-item">🍝</div>
-                            <div class="photo-item">👨‍🍳</div>
-                            <div class="photo-item">🥓</div>
-                            <div class="photo-item">🧀</div>
+                        <div th:if="${receta.fotosEmojis != null && !receta.fotosEmojis.isEmpty()}" 
+                             class="photos-grid">
+                            <div class="photo-item" 
+                                 th:each="foto : ${receta.fotosEmojis}"
+                                 th:text="${foto}">
+                                📷
+                            </div>
+                        </div>
+                        <div th:if="${receta.fotosEmojis == null || receta.fotosEmojis.isEmpty()}" 
+                             class="empty-message">
+                            <p style="font-size: 3rem;">📷</p>
+                            <p>No hay fotografías disponibles para esta receta.</p>
                         </div>
                     </div>
 
@@ -361,6 +379,7 @@
             </div>
         </div>
 
+        <!-- CONTENIDO PARA USUARIOS NO AUTENTICADOS -->
         <div sec:authorize="!isAuthenticated()">
             <div class="alert-warning">
                 <h2>🔒 Contenido Privado</h2>
