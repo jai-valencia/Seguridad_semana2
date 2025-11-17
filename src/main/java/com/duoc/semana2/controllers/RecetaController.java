@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.duoc.semana2.model.Receta;
 import com.duoc.semana2.service.RecetaService;
 
-import ch.qos.logback.core.model.Model;
+import org.springframework.ui.Model;
+
 
 @Controller
 @RequestMapping("/receta")
