@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.duoc.semana2.model.Receta;
 import com.duoc.semana2.service.RecetaService;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.ui.Model;
 
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/receta")
 public class RecetaController {
     
-    @Autowired
+    
     private RecetaService recetaService;
     
     @GetMapping("/detalle/{id}")

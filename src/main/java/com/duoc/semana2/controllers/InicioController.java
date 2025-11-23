@@ -10,13 +10,15 @@ import org.springframework.ui.Model;
 import com.duoc.semana2.model.Receta;
 import com.duoc.semana2.service.RecetaService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class InicioController {
+
+    private final RecetaService recetaService;
     
-    @Autowired
-    private RecetaService recetaService;
-    
-    @GetMapping("/inicio")
+    @GetMapping("/home")
     public String mostrarInicio(Model model) {
         // Obtener las 3 recetas más populares (puedes definir la lógica)
         List<Receta> recetasPopulares = recetaService.obtenerRecetasPopulares(3);
@@ -30,7 +32,7 @@ public class InicioController {
         return "inicio";
     }
     
-    @GetMapping("/")
+    @GetMapping("/inicio")
     public String redirectToInicio() {
         return "redirect:/inicio";
     }

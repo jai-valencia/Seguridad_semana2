@@ -21,17 +21,19 @@ import com.duoc.semana2.service.RecetaService;
 import com.duoc.semana2.service.UsuarioService;
 
 import jakarta.persistence.metamodel.Metamodel;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.ui.Model;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/usuario")
 public class UsuarioController {
     
-    @Autowired
+    
     private RecetaService recetaService;
     
-    @Autowired
+    
     private UsuarioService usuarioService;
     
     @GetMapping("/dashboard")

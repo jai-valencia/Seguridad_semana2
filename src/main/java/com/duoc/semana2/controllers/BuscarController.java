@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.duoc.semana2.model.Receta;
 import com.duoc.semana2.service.RecetaService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/buscar")
 public class BuscarController {
-    
-    @Autowired
-    private RecetaService recetaService;
-    
-    @GetMapping
+
+    private final RecetaService recetaService;
     public String mostrarBusqueda(Model model) {
         // Cargar todas las recetas por defecto
         List<Receta> recetas = recetaService.obtenerTodasLasRecetas();

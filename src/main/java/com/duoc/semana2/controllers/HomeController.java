@@ -2,6 +2,9 @@ package com.duoc.semana2.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import ch.qos.logback.core.model.Model;
 
 @Controller
 public class HomeController {
@@ -31,13 +34,14 @@ public class HomeController {
         return "inicio"; 
     }
 
-    @GetMapping("/buscar")
+    @GetMapping("/busqueda")
     public String buscar() {
         return "buscar"; 
     }
 
     @GetMapping("/receta/detalle/{id}")
-    public String receta() {
-        return "detalle-receta"; 
-    }
+public String receta(@PathVariable Long id, Model model) {
+
+    return "detalle-receta";
+}
 }

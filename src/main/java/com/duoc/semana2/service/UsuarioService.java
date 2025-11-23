@@ -7,13 +7,15 @@ import org.springframework.stereotype.Service;
 import com.duoc.semana2.model.Usuario;
 import com.duoc.semana2.repository.UsuarioRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
     
-    @Autowired
     private UsuarioRepository usuarioRepository;
     
-    @Autowired
+    
     private PasswordEncoder passwordEncoder;
     
     public Usuario obtenerPorUsername(String username) {

@@ -39,30 +39,35 @@ public class SecurityConfig {
   }
 
   
-  @Bean
+
+@Bean
 public SecurityFilterChain filterChain(HttpSecurity http,
                                        JwtAuthenticationFilter jwtFilter,
                                        DaoAuthenticationProvider authProvider) throws Exception {
-  http
-    // CSRF se deshabilita porque usamos JWT y la API es stateless: no hay sesiones que proteger.
-    .csrf(csrf -> csrf.disable())
-    .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    .authorizeHttpRequests(auth -> auth      
-      .requestMatchers("/","/inicio","/index","/user", "/login", "/auth/login", "/auth/logout", "/health/**",
-                       "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
-      
-      .requestMatchers("/admin").hasRole("ADMIN")
-      .requestMatchers("/user").hasAnyRole("USER","ADMIN")
-      
-      .requestMatchers("/api/secure/admin/**").hasRole("ADMIN")
-      .requestMatchers("/api/secure/**").authenticated()
-      
-      .anyRequest().authenticated()
-    )
-    .authenticationProvider(authProvider)
-    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-  return http.build();
+   
+    // CSRF is disabled intentionally because authentication is stateless using JWT and no session cookies are used.
+    http
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/api/**") // Se ignora solo en el API
+        )
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/","/inicio","/index","/user", "/login", "/auth/login", "/auth/logout",
+                             "/health/**", "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
+
+            .requestMatchers("/admin").hasRole("ADMIN")
+            .requestMatchers("/user").hasAnyRole("USER","ADMIN")
+
+            .requestMatchers("/api/secure/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/secure/**").authenticated()
+
+            .anyRequest().authenticated()
+        )
+        .authenticationProvider(authProvider)
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
 }
 
 }

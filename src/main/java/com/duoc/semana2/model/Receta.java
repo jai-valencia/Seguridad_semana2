@@ -35,6 +35,7 @@ public class Receta {
     private Integer porciones;
     private Integer calorias;
     private Integer vistas = 0;
+    private Integer likes = 0;
     
     private Boolean publica = true; // Nueva propiedad
     

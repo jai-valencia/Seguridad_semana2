@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.duoc.semana2.model.Receta;
 import com.duoc.semana2.repository.RecetaRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class RecetaService {
     
-    @Autowired
     private RecetaRepository recetaRepository;
     
     public Receta obtenerPorId(Long id) {
