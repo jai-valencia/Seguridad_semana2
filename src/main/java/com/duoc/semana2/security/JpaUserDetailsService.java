@@ -21,7 +21,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     return org.springframework.security.core.userdetails.User.builder()
         .username(u.getUsername())
         .password(u.getPassword())     
-        .authorities(u.getRole())      
+        .authorities(u.getRol())      
         .build();
   }
 }
