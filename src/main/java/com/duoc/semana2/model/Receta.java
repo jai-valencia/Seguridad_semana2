@@ -41,16 +41,13 @@ public class Receta {
     private Integer porciones;
     private Integer calorias;
     private Integer vistas = 0;
-<<<<<<< HEAD
+
     private Integer likes = 0;
     
-    private Boolean publica = true; // Nueva propiedad
+    private Boolean publica = true; 
     
-=======
 
-    private Boolean publica = true;
 
->>>>>>> crearTest
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
