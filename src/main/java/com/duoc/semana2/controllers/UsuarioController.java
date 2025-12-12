@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ import com.duoc.semana2.model.Usuario;
 import com.duoc.semana2.service.RecetaService;
 import com.duoc.semana2.service.UsuarioService;
 
-import jakarta.persistence.metamodel.Metamodel;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.ui.Model;
@@ -30,11 +28,9 @@ import org.springframework.ui.Model;
 @RequestMapping("/usuario")
 public class UsuarioController {
     
-    
-    private RecetaService recetaService;
-    
-    
-    private UsuarioService usuarioService;
+    // IMPORTANTE: Los campos deben ser 'final' para que @RequiredArgsConstructor los inyecte
+    private final RecetaService recetaService;
+    private final UsuarioService usuarioService;
     
     @GetMapping("/dashboard")
     public String mostrarDashboard(Model model, Principal principal) {

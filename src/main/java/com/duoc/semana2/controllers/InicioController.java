@@ -36,4 +36,5 @@ public class InicioController {
     public String redirectToInicio() {
         return "redirect:/inicio";
     }
+
 }

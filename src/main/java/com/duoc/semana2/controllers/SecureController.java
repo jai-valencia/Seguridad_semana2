@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/secure")
 public class SecureController {
   @GetMapping("/hello")
-  public String hello() { return "JWT OK 👋"; }
+  public String hello() { return "JWT OK"; }
 }

@@ -1,50 +1,64 @@
 package com.duoc.semana2.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
 @Table(name = "usuarios")
-@Data                // Lombok: genera getters, setters, toString, equals, hashcode
-@NoArgsConstructor   // Constructor vacío requerido por JPA
+@Getter 
+@Setter 
+@ToString 
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
+
+    private String email;
 
     private String nombre;
 
-    @Column(unique = true)
-    private String email;
+    private String nombreCompleto;
 
-    @Column(length = 500)
+    private String titulo;
+
+    @Column(length = 2000)
     private String biografia;
 
-    @Column(name = "fecha_registro")
-    private LocalDateTime fechaRegistro;
+    
+    @Builder.Default
+    private String rol = "USER";
 
-    private String rol; // USER o ADMIN
+    
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    // Relación con recetas
+    @OneToMany(mappedBy = "usuario")
+    @Builder.Default 
+    @EqualsAndHashCode.Exclude
     private List<Receta> recetas = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
-        name = "favoritos",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "receta_id")
+            name = "usuarios_favoritos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "receta_id")
     )
+    @Builder.Default 
+    @EqualsAndHashCode.Exclude
     private List<Receta> recetasFavoritas = new ArrayList<>();
 }

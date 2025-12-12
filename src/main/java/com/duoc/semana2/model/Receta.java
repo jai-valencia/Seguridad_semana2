@@ -17,13 +17,17 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "recetas")
-@Data               // Lombok: crea getters, setters, toString, equals, hashCode
-@NoArgsConstructor  // Lombok: constructor vacío (lo exige JPA)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Receta {
 
     @Id
@@ -43,10 +47,9 @@ public class Receta {
     private Integer vistas = 0;
 
     private Integer likes = 0;
-    
-    private Boolean publica = true; 
-    
 
+    @Builder.Default 
+    private Boolean publica = true;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
@@ -56,6 +59,10 @@ public class Receta {
 
     @Column(length = 5000)
     private String instrucciones;
+
+    // 🔥 Campo que tus tests necesitan (setDescripcion())
+    @Column(length = 2000)
+    private String descripcion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -70,7 +77,7 @@ public class Receta {
     private List<Usuario> usuariosQueFavoritearon = new ArrayList<>();
 
 
-    // Métodos utilitarios permanecen iguales
+    // Métodos utilitarios
     public Integer getTiempoTotal() {
         return (tiempoPreparacion != null ? tiempoPreparacion : 0)
              + (tiempoCoccion != null ? tiempoCoccion : 0);

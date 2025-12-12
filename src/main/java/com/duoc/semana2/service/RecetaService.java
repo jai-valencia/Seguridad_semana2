@@ -2,7 +2,6 @@ package com.duoc.semana2.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecetaService {
     
-    private RecetaRepository recetaRepository;
-    
+    private final RecetaRepository recetaRepository;
+
     public Receta obtenerPorId(Long id) {
         return recetaRepository.findById(id).orElse(null);
     }
@@ -55,15 +54,5 @@ public class RecetaService {
     
     public void eliminarReceta(Long id) {
         recetaRepository.deleteById(id);
-    }
-
-    public List<Receta> obtenerRecetasPorUsuario(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerRecetasPorUsuario'");
-    }
-
-    public List<Receta> obtenerRecetasFavoritas(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerRecetasFavoritas'");
     }
 }

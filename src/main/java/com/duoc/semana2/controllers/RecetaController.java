@@ -15,12 +15,17 @@ import org.springframework.ui.Model;
 
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/receta")
 public class RecetaController {
     
-    
+    @Autowired
     private RecetaService recetaService;
+
+    public RecetaController(RecetaService recetaService) {
+            this.recetaService = recetaService;
+        }
+
+    
     
     @GetMapping("/detalle/{id}")
     public String verDetalle(@PathVariable Long id, Model model) {

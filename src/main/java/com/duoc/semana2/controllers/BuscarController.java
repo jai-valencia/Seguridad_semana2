@@ -1,4 +1,3 @@
-
 package com.duoc.semana2.controllers;
 import java.util.List;
 
@@ -14,39 +13,42 @@ import com.duoc.semana2.service.RecetaService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+
 @Controller
-@RequestMapping("/buscar")
 public class BuscarController {
 
     private final RecetaService recetaService;
+
+    public BuscarController(RecetaService recetaService) {
+        this.recetaService = recetaService;
+    }
+
+    @GetMapping("/buscar")
     public String mostrarBusqueda(Model model) {
-        // Cargar todas las recetas por defecto
-        List<Receta> recetas = recetaService.obtenerTodasLasRecetas();
-        model.addAttribute("recetas", recetas);
+        model.addAttribute("recetas", recetaService.obtenerTodasLasRecetas());
         return "buscar";
     }
-    
-    @GetMapping("/filtrar")
+
+    @GetMapping("/buscar/filtrar")
     public String buscarRecetas(
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String tipoCocina,
             @RequestParam(required = false) String ingredientes,
             @RequestParam(required = false) String pais,
             @RequestParam(required = false) String dificultad,
-            Model model) {
-        
+            Model model
+    ) {
         List<Receta> recetas = recetaService.buscarRecetas(
-            nombre, tipoCocina, ingredientes, pais, dificultad
+                nombre, tipoCocina, ingredientes, pais, dificultad
         );
-        
+
         model.addAttribute("recetas", recetas);
         model.addAttribute("nombre", nombre);
         model.addAttribute("tipoCocina", tipoCocina);
         model.addAttribute("ingredientes", ingredientes);
         model.addAttribute("pais", pais);
         model.addAttribute("dificultad", dificultad);
-        
+
         return "buscar";
     }
 }
