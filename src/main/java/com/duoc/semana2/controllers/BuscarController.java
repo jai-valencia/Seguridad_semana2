@@ -51,4 +51,7 @@ public class BuscarController {
 
         return "buscar";
     }
+
+
 }
+
